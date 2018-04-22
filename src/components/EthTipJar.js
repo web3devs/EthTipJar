@@ -17,7 +17,7 @@ if (typeof web3 !== 'undefined') {
 }
 
 let ETJAbi = require('../../abis/EthTipJarAbi.js');
-let ETJAddress = '0x39A87b735B1E78992Fd91Cf1cf8aFd7785E76897';
+let ETJAddress = require('../../ETJAddress/ETJAddress.js');
 let ETJ = web3.eth.contract(ETJAbi).at(ETJAddress);
 
 class EthTipJar extends Component{
