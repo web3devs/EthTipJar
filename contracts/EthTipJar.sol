@@ -3,9 +3,9 @@ pragma solidity ^0.4.18;
 contract EthTipJar {
     address public myAddress = this;
     address public owner;
-    address constant public web3devs = 0xe8bF424E047372d249d0826c5567655ba3B72f18;
+    address constant public web3devs = 0x5AEDA56215b167893e80B4fE645BA6d5Bab767DE;
 
-    function EthTipJar() public payable {
+    constructor () public payable {
         owner = msg.sender;
     }
 
@@ -13,14 +13,14 @@ contract EthTipJar {
         uint amount = msg.value;
         uint royalty = amount / 200;
         web3devs.transfer(royalty);
-        owner.transfer(this.balance);
+        owner.transfer(address(this).balance);
     }
 
     function tip () payable public returns (bool){
         uint amount = msg.value;
         uint royalty = amount / 200;
         web3devs.transfer(royalty);
-        owner.transfer(this.balance);
+        owner.transfer(address(this).balance);
         return true;
     }
 }

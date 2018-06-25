@@ -1,35 +1,44 @@
 import React, { Component } from 'react';
-import Web3 from 'web3';
 
 let deployContract = require('./DeployContract');
-
-let web3 = window.web3
-// stolen code zone vvv
-
-if (typeof web3 !== 'undefined') {
-  // Use Mist/MetaMask's provider
-  web3 = new Web3(window.web3.currentProvider);
-  console.log("first case");
-} else {
-  console.log('No web3? You should consider trying MetaMask!')
-    // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-  web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:9545"));
-}
+import getWeb3 from '../utils/getWeb3';
 
 let ETJAbi = require('../../abis/EthTipJarAbi.js');
 let ETJAddress = require('../../ETJAddress/ETJAddress.js');
-let ETJ = web3.eth.contract(ETJAbi).at(ETJAddress);
+// let ETJ = web3.eth.contract(ETJAbi).at(ETJAddress);
 
 class EthTipJar extends Component{
   constructor(props){
     super(props);
     this.state = {
+      web3: null,
+      ETJ: null,
       value: 0
     }
     this.handleSubmit=this.handleSubmit.bind(this);
     this.handleTextChange=this.handleTextChange.bind(this);
     this.initializeContract=this.initializeContract.bind(this);
   }
+
+  componentWillMount() {
+  /** Get network provider and web3 instance.
+   See utils/getWeb3 for more info. */
+  getWeb3
+  .then(results => {
+    // console.log('results: ', results);
+    this.setState({
+      web3: results.web3,
+      ETJ: results.web3.eth.contract(ETJAbi).at(ETJAddress)
+    })
+  })
+  .catch(error => {
+    // console.log(error)
+    this.setState({
+      web3error: error.error
+    })
+  })
+  // this.accountListener()
+}
 
   handleTextChange = (event) => {
     if(this.state[event.target.id] !== undefined){
@@ -46,8 +55,8 @@ class EthTipJar extends Component{
   handleSubmit = (event) => {
     event.preventDefault();
     console.log("tip fired!");
-    ETJ.tip({
-      from: web3.eth.accounts[0],
+    this.state.ETJ.tip({
+      from: this.state.web3.eth.accounts[0],
       gas: 300000,
       value: this.state.value*10**18},
       (err,res)=>{
@@ -80,11 +89,11 @@ class EthTipJar extends Component{
             <input id="submit" type="submit" value="Send Tip" onClick={this.handleSubmit}/>
           </form>
         </fieldset>
-        <fieldset>
-          <form>
+        {/*<fieldset>
+         <form>
             <input id="submit" type="submit" value="Initialize EthTipJar" onClick={this.initializeContract}/>
           </form>
-        </fieldset>
+        </fieldset>*/}
 
       </div>
     );

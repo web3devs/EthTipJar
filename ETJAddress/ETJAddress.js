@@ -1,3 +1,3 @@
-const ETJAddress = '0x39A87b735B1E78992Fd91Cf1cf8aFd7785E76897';
+const ETJAddress = '0x345ca3e014aaf5dca488057592ee47305d9b3e10';
 
 module.exports = ETJAddress;
