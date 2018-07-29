@@ -1,12 +1,7 @@
 import Web3 from 'web3';
 let web3 = window.web3;
 
-let fs = require('fs');
-
-// stolen code zone vvv
-
 if (typeof web3 !== 'undefined') {
-  // Use Mist/MetaMask's provider
   web3 = new Web3(window.web3.currentProvider);
   console.log("first case");
 } else {
@@ -20,8 +15,6 @@ let ETJByteCode = "0x6060604052306000806101000a81548173fffffffffffffffffffffffff
 
 
 function deployContract() {
-  // alert("deployContract fired");
-
   // Attempt to deploy through metamask
   var contract = web3.eth.contract(ETJAbi);
   contract.new(
@@ -33,16 +26,11 @@ function deployContract() {
       console.log(e, contract);
       if (typeof contract.address !== 'undefined') {
          console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
-         console.log(fs);
-         fs.writeFileSync('contractAddress.js','const ETJAddress = '+contract.address+';module.exports = ETJAddress;','utf8', function(err,res){
-           if (err){
-             console.log(err);
-           } else {
-             console.log(res);
-           }
-         });
-       }
-     }
+         console.log(contract.address);
+      } else {
+        console.log('Failed to deploy contract');
+      }
+    }
   );
 }
 
