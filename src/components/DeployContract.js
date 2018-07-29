@@ -27,8 +27,10 @@ function deployContract() {
       if (typeof contract.address !== 'undefined') {
          console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
          console.log(contract.address);
+         if(document.getElementById('ethtipjar-contract-address-field') !== null)
+            document.getElementById('ethtipjar-contract-address-field').value = contract.address;
       } else {
-        console.log('Failed to deploy contract');
+        console.log("Contract hasn't been mined yet.");
       }
     }
   );
