@@ -79,24 +79,30 @@ class EthTipJar extends Component{
       letterSpacing: "0.1em"
     }
 
-    return (
-      <div className="EthTipJar">
-        <fieldset>
-          <form>
-            <label style={labelStyle}>ETH:</label>
-            <input id="value" type="text" onChange={this.handleTextChange} value={this.state.value} />
-            <hr/>
-            <input id="submit" type="submit" value="Send Tip" onClick={this.handleSubmit}/>
-          </form>
-        </fieldset>
-        <fieldset>
-         <form>
-            <input id="submit" type="submit" value="Initialize EthTipJar" onClick={this.initializeContract}/>
-          </form>
-        </fieldset>
-
-      </div>
-    );
+    if(document.getElementById('ethtipjar-contract-address-field') !== null){
+      return (
+        <div className="EthTipJar">
+          <fieldset>
+           <form>
+              <input id="submit" type="submit" value="Initialize EthTipJar" onClick={this.initializeContract}/>
+            </form>
+          </fieldset>
+        </div>
+      );
+    } else {
+      return (
+        <div className="EthTipJar">
+          <fieldset>
+            <form>
+              <label style={labelStyle}>ETH:</label>
+              <input id="value" type="text" onChange={this.handleTextChange} value={this.state.value} />
+              <hr/>
+              <input id="submit" type="submit" value="Send Tip" onClick={this.handleSubmit}/>
+            </form>
+          </fieldset>
+        </div>
+      );
+    }
   }
 }
 
