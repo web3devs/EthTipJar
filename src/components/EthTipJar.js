@@ -4,7 +4,8 @@ let deployContract = require('./DeployContract');
 import getWeb3 from '../utils/getWeb3';
 
 let ETJAbi = require('../../abis/EthTipJarAbi.js');
-let ETJAddress = require('../../ETJAddress/ETJAddress.js');
+// let ETJAddress = require('../../ETJAddress/ETJAddress.js');
+let ETJAddress = window.ETJAddress;
 // let ETJ = web3.eth.contract(ETJAbi).at(ETJAddress);
 
 class EthTipJar extends Component{
