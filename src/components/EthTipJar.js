@@ -89,11 +89,11 @@ class EthTipJar extends Component{
             <input id="submit" type="submit" value="Send Tip" onClick={this.handleSubmit}/>
           </form>
         </fieldset>
-        {/*<fieldset>
+        <fieldset>
          <form>
             <input id="submit" type="submit" value="Initialize EthTipJar" onClick={this.initializeContract}/>
           </form>
-        </fieldset>*/}
+        </fieldset>
 
       </div>
     );
