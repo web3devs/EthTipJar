@@ -3,7 +3,7 @@ pragma solidity ^0.4.18;
 contract EthTipJar {
     address public myAddress = this;
     address public owner;
-    address constant public web3devs = 0x5AEDA56215b167893e80B4fE645BA6d5Bab767DE;
+    address constant public web3devs = 0x8A45C193e7Cd5c485534f82f4Ce6657EFc973faB;
 
     constructor () public payable {
         owner = msg.sender;
