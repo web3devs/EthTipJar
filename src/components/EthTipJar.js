@@ -22,55 +22,67 @@ class EthTipJar extends Component{
   }
 
   componentWillMount() {
-  /** Get network provider and web3 instance.
-   See utils/getWeb3 for more info. */
-  getWeb3
-  .then(results => {
-    // console.log('results: ', results);
-    this.setState({
-      web3: results.web3,
-      ETJ: results.web3.eth.contract(ETJAbi).at(ETJAddress)
+    /** Get network provider and web3 instance.
+     See utils/getWeb3 for more info. */
+    getWeb3
+    .then(results => {
+      // console.log('results: ', results);
+      this.setState({
+        web3: results.web3,
+        ETJ: results.web3.eth.contract(ETJAbi).at(ETJAddress)
+      })
     })
-  })
-  .catch(error => {
-    // console.log(error)
-    this.setState({
-      web3error: error.error
+    .catch(error => {
+      console.log(error);
+      this.setState({
+        web3error: error.message
+      })
     })
-  })
-  // this.accountListener()
-}
+  }
 
   handleTextChange = (event) => {
-    if(this.state[event.target.id] !== undefined){
-      this.setState({[event.target.id]: event.target.value});
+    if (this.state[event.target.id] !== undefined){
+      this.setState({ [event.target.id]: event.target.value });
     }
   }
 
   initializeContract = (event) => {
     event.preventDefault();
-    console.log("initializeContract fired");
-    deployContract();
+      if (window.web3) {
+        console.log("initializeContract fired");
+        deployContract();
+      } else {
+        // no web3
+        console.log('No web3 detected.');
+      }
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log("tip fired!");
-    this.state.ETJ.tip({
-      from: this.state.web3.eth.accounts[0],
-      gas: 300000,
-      value: this.state.value*10**18},
-      (err,res)=>{
-        if(err){
-          console.log("there is an error with the callback");
-          console.log(err);
-        } else {
-          console.log("success!");
-          console.log(res);
+    if (this.state.web3 === 'enabled') {
+      // could also check for window.web3.eth.accounts[0]
+      console.log("tip fired!");
+      this.state.ETJ.tip(
+        {
+          from: window.web3.eth.accounts[0],
+          gas: 300000,
+          value: this.state.value * 10 ** 18
+        },
+        (err, res)=>{
+          if (err) {
+            console.log("there is an error with the callback");
+            console.log(err);
+          } else {
+            console.log("success!");
+            console.log(res);
+          }
         }
-      }
-    );
-    console.log("ETJ.tip fired!");
+      );
+      console.log("ETJ.tip fired!");
+    } else {
+      // no web3
+      console.log('No web3 detected.');
+    }
   }
 
   render() {
@@ -80,7 +92,7 @@ class EthTipJar extends Component{
       letterSpacing: "0.1em"
     }
 
-    if(document.getElementById('ethtipjar-contract-address-field') !== null){
+    if (document.getElementById('ethtipjar-contract-address-field') !== null){
       return (
         <div className="EthTipJar">
           <fieldset>
