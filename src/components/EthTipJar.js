@@ -26,7 +26,7 @@ class EthTipJar extends Component{
    See utils/getWeb3 for more info. */
   getWeb3
   .then(results => {
-    // console.log('results: ', results);
+    console.log('getWeb3: ', results);
     this.setState({
       web3: results.web3,
       ETJ: results.web3.eth.contract(ETJAbi).at(ETJAddress)
